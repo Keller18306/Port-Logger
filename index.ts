@@ -21,7 +21,7 @@ const ports: number[] = [
     27010,
     27015,
     44707,
-    65536
+    65535
 ]
 
 function connection(socket: Socket) {
