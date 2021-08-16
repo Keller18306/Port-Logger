@@ -3,12 +3,10 @@ import { createServer, Socket } from 'net'
 
 const ports: number[] = [
     20,
-    21,
     22,
     23,
     1111,
     2222,
-    3306,
     3333,
     4444,
     5555,
@@ -17,16 +15,25 @@ const ports: number[] = [
     8888,
     9999,
     19132,
+    22980,
+    23231,
     25565,
     27010,
-    27015
+    27015,
+    44707,
+    65536
 ]
 
 function connection(socket: Socket) {
     const date = new Date()
 
-    const ipParts = socket.remoteAddress!.split(':')
-    const ip = ipParts[ipParts.length-1]
+    if (socket.remoteAddress == undefined) {
+        if (!socket.destroyed) socket.destroy()
+        return;
+    }
+
+    const ipParts = socket.remoteAddress.split(':')
+    const ip = ipParts[ipParts.length - 1]
 
     const port = socket.localPort
 
@@ -39,6 +46,6 @@ function connection(socket: Socket) {
     socket.destroy()
 }
 
-for(const port of ports) createServer(connection).listen(port, () => {
+for (const port of ports) createServer(connection).listen(port, () => {
     console.log(`Start server on ${port}`)
 })
